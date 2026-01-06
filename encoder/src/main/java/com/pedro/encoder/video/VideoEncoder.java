@@ -73,6 +73,8 @@ public class VideoEncoder extends BaseEncoder implements GetCameraData {
   private FormatVideoEncoder formatVideoEncoder = FormatVideoEncoder.YUV420Dynamical;
   private int profile = -1;
   private int level = -1;
+  public int latency = 0;
+  public int intraRefreshPeriod = 0;
 
   public VideoEncoder(GetVideoData getVideoData) {
     this.getVideoData = getVideoData;
@@ -167,6 +169,12 @@ public class VideoEncoder extends BaseEncoder implements GetCameraData {
       if (this.level > 0) {
         // MediaFormat.KEY_LEVEL, API > 23
         videoFormat.setInteger("level", this.level);
+      }
+      if (this.latency > 0) {
+        videoFormat.setInteger("latency", this.latency);
+      }
+      if (this.intraRefreshPeriod > 0) {
+        videoFormat.setInteger("intra-refresh-period", this.intraRefreshPeriod);
       }
       setCallback();
       codec.configure(videoFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
